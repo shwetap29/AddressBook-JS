@@ -16,5 +16,5 @@ class AddressBook {
     }
 }
 
-let addressBook = new AddressBook("Shweta", "Prasad", "Thane", "Mumbai", "Mhahrashtra", "411057", "7894562103", "shwetaprasad48@gmail.com");
+let addressBook = new AddressBook("Shweta", "Prasad", "Thane", "Mumbai", "Mahrashtra", "411057", "7894562103", "shwetaprasad48@gmail.com");
 console.log(addressBook.toString());
