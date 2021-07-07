@@ -1,4 +1,5 @@
-//View Contact By city
+// Counting contacts by city and state
+
 const prompt = require('prompt-sync')();
 const Contact = require('./Contact.js')
 
@@ -59,25 +60,26 @@ let editContact = () => {
 
 let deleteContact = () => {
     let frstName = prompt("Enter First Name : ");
-    let lstName = prompt("Enter Last Name : ");
+    let lstName = prompt("Enter Lastt Name : ");
     let index = getindexByName(frstName, lstName);
     if (index == -1)
         console.log("Could not find the contact!!")
     else {
         console.log("Contact deleted successfully!!");
         return addressBookArr.splice(index, 1);
-
     }
 }
 
-let searchByCity = () => {
-    let searchCity = prompt("Enter the city name ");
-    return addressBookArr.filter(contact => contact.city == searchCity);
-}
+let searchByCityState = (item) => {
+    let contactsByItemArr = new Array();
+    let itemName = prompt("Enter the " + item + " name ");
+    if (item == "City")
+        contactsByItemArr = addressBookArr.filter(contact => contact.city == itemName);
+    else if (item == "State")
+        contactsByItemArr = addressBookArr.filter(contact => contact.state == itemName);
+    console.log("Number of contacts " + countContacts(contactsByItemArr));
+    contactsByItemArr.forEach(contact => console.log(contact.toString()))
 
-let searchByState = () => {
-    let searchState = prompt("Enter the state name ");
-    return addressBookArr.filter(contact => contact.state == searchState);
 }
 
 console.log("Welcome to AddressBook Program!!");
