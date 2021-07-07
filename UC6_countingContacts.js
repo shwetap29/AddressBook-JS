@@ -1,4 +1,4 @@
-// Create contacts
+//Ability To Find Number Of Contacts In address book
 const prompt = require('prompt-sync')();
 
 let nameRegex = RegExp("^[A-Z]{1}[a-z]{2,}$");
@@ -7,7 +7,7 @@ let cityStateRegex = RegExp("^[A-Za-z]{4,}$");
 let zipRegex = RegExp("^[1-9]{1}[0-9]{2}[ ]?[0-9]{3}$");
 let phoneNumberRegex = RegExp("^[1-9]{1}[0-9]{9}$");
 let emailRegex = RegExp("^([a-z]+)([0-9])*([_+-.]{1}[a-z0-9]+)*(@)([a-z0-9]+)[.]([a-z]{2,})([.][a-z]{2}){0,1}$");
-class AddressBook {
+class Contact {
     constructor(...params) {
         if (nameRegex.test(params[0]))
             this.firstName = params[0];
@@ -62,23 +62,62 @@ let getContact = () => {
     return contactInput;
 };
 
+let countContacts = () => addressBookArr.reduce((total, contact) => total + 1, 0);    // Using reduce Function to get the count
+
+let viewContacts = () => {
+    addressBookArr.forEach(contact => console.log(contact.toString()));
+}
+
 let addContact = (contact) => {
     addressBookArr.push(contact);
     console.log("Contact Added Successfully!!")
 }
 
-console.log("Welcome to AddressBook Program!!");
-let choice = 0;
+let getindexByName = (frstName, lstName) => {
+    return addressBookArr.findIndex(contact => contact.firstName == frstName && contact.lastName == lstName);
+}
 
-do {
-    console.log("Choose\n1. Add Contact\n2. Exit");
-    choice = prompt("Enter Your Choice ");
-    switch (choice) {
-        case "1": addContact(getContact());
-            break;
-        case "2": console.log("Bye!!");
-            break;
-        default: console.log("Invalid Choice !!");
+let editContact = () => {
+    let frstName = prompt("Enter First Name : ");
+    let lstName = prompt("Enter Lastt Name : ");
+    let index = addressBookArr.findIndex(contact => contact.firstName == frstName && contact.lastName == lstName);
+    if (index == -1)
+        console.log("Could not find the contact!!")
+    else {
+        addressBookArr[index] = getContact();
+        console.log("Contact edited successfully!!");
     }
+}
 
-} while (choice != 2)
+// delete contact UC5
+let deleteContact = () => {
+    let frstName = prompt("Enter First Name : ");
+    let lstName = prompt("Enter Lastt Name : ");
+    let index = getindexByName(frstName, lstName);
+    if (index == -1)
+        console.log("Could not find the contact!!")
+    else {
+        console.log("Contact deleted successfully!!");
+        return addressBookArr.splice(index, 1);
+
+    }
+}
+        let choice = 0;
+        do {
+            console.log("Choose\n1. View Contacts\n2. Add Contact\n3. Edit Contact By name\n4. Delete Contact\n5. Exit");
+            choice = prompt("Enter Your Choice ");
+            switch (choice) {
+                case "1": viewContacts();
+                    break;
+                case "2": addContact(getContact());
+                    break;
+                case "3": editContact();
+                    break;
+                case "4": console.log(deleteContact());
+                    break;
+                case "5": console.log("Bye!!");
+                    break;
+                default: console.log("Invalid Choice !!");
+            }
+        
+        } while (choice != 5)
